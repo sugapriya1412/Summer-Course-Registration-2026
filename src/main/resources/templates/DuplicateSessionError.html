@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<!--
+  Author: Prabakaran Ramu
+  Date : 05-NOV-2022
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layouts/Header :: style_sheets">
+<base th:href="@{${session.baseURL}}" />
+<link href="assets/img/favicon1.png" rel="icon" type="image/x-icon" />
+<meta http-equiv="cache-control" content="max-age=0" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0" />
+<title>VIT - VTOP REGISTRATION</title>
+</head>
+
+<body style="padding: 0px; margin: 0px; background-color: #ECF0F5">
+
+
+	<div class="container">
+
+		<form th:action="@{/logout}" method="post">
+			<input type="hidden" th:name="${_csrf?.parameterName}"
+				th:value="${_csrf?.token}" />
+
+			<div align="center"
+				style="margin: auto; padding-top: 50px;">
+				<h1 style="color: red;">Multiple logins not allowed for the same user</h1>
+
+				<input type="submit" value="Home" 
+				style="padding: 10px 20px 10px 20px; font-weight :bold; margin: 10px; background-color: #04AA6D; color: white"/>
+
+
+			</div>
+		</form>
+	</div>
+</body>
+</html>

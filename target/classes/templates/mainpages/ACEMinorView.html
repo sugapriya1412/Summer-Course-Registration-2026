@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<base th:href="@{${session.baseURL}}" />
+</head>
+<body class="hold-transition skin-blue-light sidebar-mini fixed">
+	<div class="wrapper">
+		<div class="content-wrapper" id="page-wrapper">
+			<div class="" th:fragment="section">
+				<div class="margin-homepage">
+					<div class="container">
+
+						<div
+							style="text-align: center; font-weight: bolder; text-decoration: underline; margin-bottom: 8px;"
+							th:if="${registrationOption != null}">
+							<label
+								th:if="${(registrationOptionDesc != null) and (registrationOptionDesc != '')}"
+								th:text="${registrationOptionDesc}"></label>
+						</div>
+
+
+						<form role="form" method="post" autocomplete="off"
+							id="cbcsMinSelectForm" name="cbcsMinSelectForm">
+
+							<input type="hidden" th:name="${_csrf?.parameterName}"
+								th:value="${_csrf?.token}" />
+							<div th:fragment="cclistfrag" id="cclistfrag">
+								<input type="hidden" id="registrationOption"
+									th:value="${session.registrationOption}">
+								<div>
+									<h3>Minor Registration ACE</h3>
+
+									<div style="width: 70%; float: right; margin-left: 250px;">
+										<p
+											th:each="minorRegOpt, it : ${session.minorBasketDetailsAce}"
+											class="radio-check">
+											<input class="radio-btn" type="radio"
+												name="subRegistrationOption"
+												th:id="${'subRegistrationOption'+ it.index}"
+												th:value="${minorRegOpt.key}" th:text="${minorRegOpt.value}" />
+										</p>
+									</div>
+
+
+									<div>
+										<p>
+											<th:block>
+												<div id="info" style="color: red; text-align: center;"></div>
+											</th:block>
+										</p>
+										<h2 style="width:100%;float:left;" align="center">
+											<span style="color: red; font-size: 18px;">DO NOT SKIP
+												READING THESE IMPORTANT INSTRUCTIONS</span>
+										</h2>
+										<ul style="width:90%;float:left;font-size: 17px; padding: 3px; margin-left: 36px;">
+											<li style="text-align: justify;">You are permitted to
+												register courses only from any one Minor basket throughout
+												your study period. Therefore, select the "Minor Programme"
+												of your interest and start registering the courses. During
+												the subsequent semesters, you can't change the "Minor
+												Programme" that have been opted during the first time course
+												registration..</li>
+											<li style="text-align: justify;"><span> If you
+													Fail in a minor course(s), then you have to re-register the
+													course(s) during the subsequent semester by paying the
+													applicable re-registration fee. </span></li>
+											<li style="text-align: justify;">Minor courses will not
+												be considered for the overall GPA/CGPA of of your programme</li>
+											<li style="text-align: justify;">If you fail to complete
+												all the courses prescribed under â€œMinor Programmeâ€�, the
+												course(s) which were completed under â€œMinorâ€� category will
+												be converted to â€œAuditâ€� Course(s) while preparing the
+												â€œDegree Eligibilityâ€� at the end of the programme duration.
+												(i.e., Such courses will not be considered under any other
+												course category)</li>
+										</ul>
+									</div>
+									<br> <br />
+
+									<div style="text-align: center;width: 100%;float: left;margin-bottom: 30px;">
+										<button type="button"
+											class="btn-success w3-btn w3-btn-green w3-round-large"
+											th:data-csrfname="${_csrf?.parameterName}"
+											th:data-csrfvalue="${_csrf?.token}"
+											onclick="processMinorRegistrationOption(this);">Submit</button>
+									</div>
+									<script type="text/javascript">
+										function processMinorRegistrationOption(
+												event) {
+											var subCourseOpt = "";
+											var chkFlag = 0;
+											var subRegistrationOption = $(
+													'input[name=subRegistrationOption]:checked')
+													.val();
+											var regOption = $(
+													'#registrationOption')
+													.val();
+											if ($('input[name=subRegistrationOption]:checked').length <= 0) {
+												swal(
+														{
+															title : "Choose Any One Option",
+															confirmButtonColor : '#3085d6'
+														},
+
+														function(button) {
+															if (button == true) {
+																window
+																		.setTimeout(
+																				function() {
+
+																				},
+																				0);
+															}
+														});
+
+												return false;
+											} else {
+												chkFlag = 1;
+											}
+
+											if (chkFlag == 1) {
+												var csrfId = event
+														.getAttribute('data-csrfname')
+														+ "="
+														+ event
+																.getAttribute('data-csrfvalue');
+												var params = "registrationOption="
+														+ regOption
+														+ "&pageSize=10&page=1"
+														+ "&subCourseOption="
+														+ subCourseOpt
+														+ "&flag=0"
+														+ "&subRegistrationOption="
+														+ subRegistrationOption
+														+ "&" + csrfId;
+
+												$
+														.blockUI({
+															message : '<img src="assets/img/482.GIF"> loading... Just a moment...'
+														});
+
+												$
+														.ajax({
+															url : "processRegistrationOption",
+															type : "POST",
+															data : params,
+															success : function(
+																	response) {
+																$(
+																		'#page-wrapper')
+																		.html(
+																				response);
+																$.unblockUI();
+															}
+														});
+											}
+										}
+									</script>
+								</div>
+							</div>
+
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

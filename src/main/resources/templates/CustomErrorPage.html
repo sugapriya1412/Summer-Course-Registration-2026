@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!--
+  Author: Sivaraman C & Kishore B
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layouts/Header :: style_sheets">
+<base th:href="@{${session.baseURL}}" />
+<meta http-equiv="cache-control" content="max-age=0" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0" />
+<link rel="stylesheet" href="assets/css/lightweight.css" />
+<style>
+* {
+	margin: 0;
+	padding: 4px;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+
+div.logout {
+	width: 100%;
+	box-sizing: border-box;
+	border-radius: 9px;
+	text-align: center;
+}
+
+.buttonClass {
+	border-radius: 3px;
+	cursor: pointer;
+}
+</style>
+
+</head>
+<header style="margin: 0px;" class="main-header"
+	th:include="layouts/Header::Header"></header>
+<body style="padding: 0px; margin: 0px; background-color: #ECF0F5">
+
+	<div style="padding: 20px;">
+
+
+
+			<div class="logout"
+				style="margin: auto auto 20px auto; padding: 20px; text-align: center;">
+				<h1 style="text-align: center; color: Red; font-size: 35px;"
+					th:text="${message}"></h1>
+				<br /> <br /> <span style="visibility: hidden;">___INTERNAL___RESPONSE___
+				</span>
+
+
+			</div>
+			
+			<div class="container">
+			<div style="font-size: 18px;  justify-content: center; margin-left: 400px; font-weight: bold;" >
+					<ul >
+						<li>The session will expire automatically, due to inactivity
+							on the page</li>
+						<li>Kindly refrain from using- Back, Forward and Refresh tabs of the browser</li>
+						<li>If the problem persists, please try again after clearing
+							the Temporary Files from your web browser</li>
+
+					</ul>
+					
+					
+				<div>
+				<!-- 	<input type="submit" class="btn"
+						style="padding: 10px 20px 10px 20px; font-size: 18px; font-weight: bold; margin-left: 90px;margin-top :20px; background-color: green; color: white"
+						value="Proceed to Home Page" /> -->
+						
+<a class="buttonClass" style="padding:10px 20px 10px 20px;
+						margin:10px;background-color:#EB984E;color:white" th:href="@{/}" > Sign In</a>				</div>
+				</div>
+			
+			</div>
+			
+
+	</div>
+	<footer>
+		<div style="padding: 10px 10px 10px 30px; padding-right: 10px;">
+			Copyright 2023 &copy; Software Development Cell - VIT </div>
+	</footer>
+</body>
+</html>
