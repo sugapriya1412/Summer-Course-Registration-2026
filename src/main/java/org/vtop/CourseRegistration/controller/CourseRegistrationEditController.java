@@ -227,9 +227,14 @@ public class CourseRegistrationEditController
 				if (statusFlag == 1)
 				{
 					statusFlag = 2;
-
-					if (courseOption.equals("RGR") && (!ccCourseSystem.equals("NONFFCS")) 
-							&& (!ccCourseSystem.equals("FFCS")) && (!ccCourseSystem.equals("CAL")))
+					//disbale vellore code modify
+					//if (courseOption.equals("RGR") && (!ccCourseSystem.equals("NONFFCS")) 
+						//	&& (!ccCourseSystem.equals("FFCS")) && (!ccCourseSystem.equals("CAL")))
+						
+					if ((!courseOption.equals("RR") && !courseOption.equals("RRCE"))
+					        && (!ccCourseSystem.equals("NONFFCS"))
+					        && (!ccCourseSystem.equals("FFCS"))
+					        && (!ccCourseSystem.equals("CAL")))
 					{	
 						 if ((genericCourseType.equals("TH") || genericCourseType.equals("LO")) 
 								&& (!crCourseCode.equals("")))
@@ -240,7 +245,10 @@ public class CourseRegistrationEditController
 							{
 								for (CourseRegistrationModel e : courseRegistrationModel3)
 								{
-									if (e.getCourseOptionCode().equals("RGR"))
+									//if (e.getCourseOptionCode().equals("RGR")
+									
+									if (!e.getCourseOptionCode().equals("RR")
+									        && !e.getCourseOptionCode().equals("RRCE")) 
 									{
 										msg = "Selected "+ courseCode +" - "+ courseTitle +" co-requisite course is not allowed to modify. Please delete and enroll again";
 									}
@@ -262,6 +270,22 @@ public class CourseRegistrationEditController
 							statusFlag = 1;
 						}
 					}
+					//chennai code for modify RR
+					else if ((courseOption.equals("RR") || courseOption.equals("RRCE"))
+							&& (!ccCourseSystem.equals("NONFFCS")) && (!ccCourseSystem.equals("FFCS")))
+					{
+						if ((genericCourseType.equals("TH") || genericCourseType.equals("LO") || genericCourseType.equals("SS")) 
+								&& (crCourseCode.equals("")))
+						{
+							statusFlag = 1;
+						}
+						else
+						{
+							msg="Modify Option Not Avaiable kindly delete the course and register again.";
+							statusFlag = 2;
+						}
+						
+					}
 					else
 					{
 						statusFlag = 1;
@@ -275,8 +299,9 @@ public class CourseRegistrationEditController
 					if (courseType.equals("ETH") || courseType.equals("ELA")) 
 					{
 						CourseCatalogModel courseCatalog =  courseCatalogService.getOne(courseId2);
-						if(compCourseIdList.contains(courseCatalog.getCode()))
-						{
+						//chennai code disable modify option etp etlp
+						//if(compCourseIdList.contains(courseCatalog.getCode()))
+						//{
 							
 							
 							returnMap  = courseRegistrationService.doGetRegClassIdsELAETH(semesterSubId, courseId2, registerNumber);
@@ -301,12 +326,12 @@ public class CourseRegistrationEditController
 
 							session.setAttribute("tlClassId", returnMap.get("ETH"));
 							session.setAttribute("llClassId", returnMap.get("ELA"));
-						}
+						/*}
 						else
 						{
 							msg = "Selected "+ courseCode +" - "+ courseTitle +" course is not allowed to modify. Please delete and enroll again";
 
-						}
+						}*/
 					} 
 					else 
 					{

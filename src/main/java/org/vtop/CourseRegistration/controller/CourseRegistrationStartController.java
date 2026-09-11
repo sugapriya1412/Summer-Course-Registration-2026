@@ -52,7 +52,7 @@ public class CourseRegistrationStartController
 		int regularFlag = (Integer) session.getAttribute("regularFlag");
 		
 		String programcode=(String) session.getAttribute("programGroupCode");
-		System.out.println("programcode==>"+programcode);
+		//System.out.println("programcode==>"+programcode);
 		int minStatus=(Integer) session.getAttribute("minorFlag");
 		
 		String captchaInput = request.getParameter("captchaStringProgInfo")!=null ? request.getParameter("captchaStringProgInfo").trim() : "" ;
@@ -232,7 +232,7 @@ public class CourseRegistrationStartController
 			//Fixing the Minimum & Maximum credit based on CGPA
 			String[] creditLimitArr = courseRegCommonFn.getMinimumAndMaximumCreditLimit(semesterSubId, registerNumber, 
 					programGroupCode, costCentreCode, studyStartYear, studentGraduateYear, 
-					academicGraduateYear, semesterId, programSpecCode, studentCgpaData).split("\\|");
+					academicGraduateYear, semesterId, programSpecCode, studentCgpaData, session).split("\\|");
 			float minCredit = Float.parseFloat(creditLimitArr[0]);
 			float maxCredit = Float.parseFloat(creditLimitArr[1]);
 			LOGGER.trace("\n minCredit: "+ minCredit +" | maxCredit: "+ maxCredit);

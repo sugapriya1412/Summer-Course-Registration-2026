@@ -88,12 +88,12 @@ public class StudentHistoryService
 			{
 				courseSubList = studentHistoryRepository.findStudentHistoryCS2(registerNumber, regCourseList);
 			}
-			else if(studySystem.equals("CBCS") && courseCategory.equals("FC"))
+			else if(studySystem.equals("CBCS") && (courseCategory.equals("FC") || courseCategory.equals("FCHSSM")))
 			{
 				courseSubList = studentHistoryRepository.doGetBasketCourseForCSByRegNoAndSpecIdAndAdmYrAndBsktIdAndCrsCodeAndCrsCatgAndCurVersion
 						(registerNumber, specializationId, studentYear, basketId, courseCode, courseCategory, curriculumVersion);
 			}
-			else if(studySystem.equals("CBCS") && (courseCategory.equals("DE") || courseCategory.equals("OE")))
+			else if(studySystem.equals("CBCS") && (courseCategory.equals("DE") || courseCategory.equals("OE") || courseCategory.equals("SPE")))
 			{
 				courseSubList = studentHistoryRepository.findStudentHistoryCSDEAndOE(registerNumber, regCourseList, 
 						specializationId, studentYear, curriculumVersion,courseCategory);

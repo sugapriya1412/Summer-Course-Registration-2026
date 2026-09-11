@@ -152,7 +152,8 @@ public class CourseRegCommonService
 			}
 			
 			//if (rgrCourseAllowStatus == 1 && admissionYear != null && admissionYear != 2025)
-			if (rgrCourseAllowStatus == 1  && admissionYear != null && (admissionYear != 2025 || Integer.valueOf(156).equals(specializationId)))				
+			//if (rgrCourseAllowStatus == 1  && admissionYear != null && (admissionYear != 2025 || Integer.valueOf(156).equals(specializationId)))
+			if (rgrCourseAllowStatus == 1)
 			{
 				pscccList = programSpecializationCurriculumCategoryCreditRepository.findBySpecIdAndAdmissionYear(specializationId, 
 								admissionYear);

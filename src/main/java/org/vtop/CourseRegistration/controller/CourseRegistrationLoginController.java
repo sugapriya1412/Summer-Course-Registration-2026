@@ -201,13 +201,22 @@ public class CourseRegistrationLoginController
 			String[] courseOptionStatusArray = courseRegCommonFn.getCourseOptionStatus(programGroupCode, specCode, studentGraduateYear, 
 					academicGraduateYear, semesterId, studyStartYear).split("\\|");
 			
-			if ((courseOptionStatusArray != null) && (courseOptionStatusArray.length > 0) && (studyStartYear==2025) && programGroupCode.equals("BTECH"))
+			
+			//chennai code
+		/*	if ((courseOptionStatusArray != null) && (courseOptionStatusArray.length > 0) && (studyStartYear==2025) && programGroupCode.equals("BTECH"))
 			{
 				//minorFlag = Integer.parseInt(courseOptionStatusArray[4]);
 				regularFlag = Integer.parseInt(courseOptionStatusArray[0]);
 				
 			}
 			else if ((courseOptionStatusArray != null) && (courseOptionStatusArray.length > 0))
+			{
+				regularFlag = Integer.parseInt(courseOptionStatusArray[0]);
+				reRegFlag = Integer.parseInt(courseOptionStatusArray[1]);
+			}*/
+			
+			
+			if ((courseOptionStatusArray != null) && (courseOptionStatusArray.length > 0))
 			{
 				regularFlag = Integer.parseInt(courseOptionStatusArray[0]);
 				reRegFlag = Integer.parseInt(courseOptionStatusArray[1]);

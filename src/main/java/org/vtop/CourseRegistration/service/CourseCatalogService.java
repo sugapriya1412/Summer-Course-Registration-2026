@@ -299,8 +299,15 @@ public class CourseCatalogService
 						else
 						{
 							
-							returnModelList = courseAllocationRepository.findCourseRGRWithRPProg(egbGroupId, "%"+programGroup+"%",
-									notCourseCodeList,Arrays.asList(courseSystem),Arrays.asList("ECA","OC"), courseIdList);
+							//returnModelList = courseAllocationRepository.findCourseRGRWithRPProg(egbGroupId, "%"+programGroup+"%",
+							//		notCourseCodeList,Arrays.asList(courseSystem),Arrays.asList("ECA","OC"), courseIdList);
+							
+//							returnModelList = courseAllocationRepository.findCourseRGRWithRPProg(egbGroupId, "%"+programGroup+"%",
+//									notCourseCodeList,Arrays.asList(courseSystem),Arrays.asList("ECA"), courseIdList);
+							
+							returnModelList = courseAllocationRepository.findCourseRGRWithRPProg(egbGroupId, "%"+programGroup+"%", 
+									courseCodeList, notCourseCodeList,
+									Arrays.asList("ECA","OC"), courseIdList);
 							
 						}
 						
@@ -362,8 +369,13 @@ public class CourseCatalogService
 						LOGGER.trace("\n RR - courseIdList: "+ courseIdList);
 						LOGGER.trace("grp{}",egbGroupId,"pgrp{}", programGroup, "crscode{}",courseCodeList);
 						
+						
 						returnModelList = courseAllocationRepository.findCourseRRCourseList(egbGroupId, "%"+programGroup+"%", courseCodeList, 
-								 Arrays.asList("ECA","OC"), courseIdList);
+								 Arrays.asList("ECA"), courseIdList);
+						
+						
+					//	returnModelList = courseAllocationRepository.findCourseRRCourseList(egbGroupId, "%"+programGroup+"%", courseCodeList, 
+						//		 Arrays.asList("ECA","OC"), courseIdList);
 						
 						
 						if (!returnModelList.isEmpty())
@@ -505,7 +517,11 @@ public class CourseCatalogService
 
 						courseCodeList = courseAllocationRepository.doGetListCourseIdOfOECBySemesterSubIdAndClassGrpId(admissionYear,semesterSubId,Arrays.asList(classGroupId),programSpecId,programGroupId);
 
-						List<Object[]> curriculuimDetails =  programmeSpecializationCurriculumDetailRepository.doGetAllOECoursesACE(admissionYear,programGroupId,"OEC");
+						//List<Object[]> curriculuimDetails =  programmeSpecializationCurriculumDetailRepository.doGetAllOECoursesACE(admissionYear,programGroupId,"OEC");
+						
+						//chennai code suga for OEC
+						List<Object[]> curriculuimDetails =  programmeSpecializationCurriculumDetailRepository.doGetAllOECoursesACEByProgramSpecId(admissionYear,programGroupId,"OEC",programSpecId);
+
 
 						for(Object[] obj : curriculuimDetails)
 						{
@@ -592,8 +608,11 @@ public class CourseCatalogService
 							}
 							LOGGER.trace("\n default - courseIdList:--> "+ courseIdList);
 							
+						//	returnModelList = courseAllocationRepository.findCourseFFCSCALCourseList(egbGroupId,  "%"+programGroup+"%",
+								//	courseCodeList, Arrays.asList(courseSystem), Arrays.asList("ECA","OC"), courseIdList);
+							//chennai code
 							returnModelList = courseAllocationRepository.findCourseFFCSCALCourseList(egbGroupId,  "%"+programGroup+"%",
-									courseCodeList, Arrays.asList(courseSystem), Arrays.asList("ECA","OC"), courseIdList);
+									courseCodeList, Arrays.asList(courseSystem), Arrays.asList("ECA"), courseIdList);
 
 							
 							if (!returnModelList.isEmpty())

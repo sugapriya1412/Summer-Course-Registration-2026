@@ -608,6 +608,7 @@ public interface CourseRegistrationRepository extends JpaRepository<CourseRegist
 	List<Object[]> findCompulsoryCourseRegistrationAndAllocationForRP(String semesterSubId, String registerNumber, List<String> courseCode, 
 			String[] classGroupId, String[] classType, String[] courseSystem);
 
+	//chennai code bai,bps
 	@Query(value="select a.tab_type, a.course_code from ( "+
 			"(select distinct 'REG' as tab_type, b.code as course_code from academics.course_registration a, "+ 
 			"academics.course_catalog b where a.semstr_details_semester_sub_id=?1 and "+ 
@@ -616,7 +617,7 @@ public interface CourseRegistrationRepository extends JpaRepository<CourseRegist
 			"(select distinct 'ALLOT' as tab_type, b.code as course_code from academics.course_allocation a, "+ 
 			"academics.course_catalog b where a.semstr_details_semester_sub_id=?1 and "+ 
 			"a.clssgrp_master_class_group_id in (?4) and a.class_type in (?5) and (a.class_option=1 "+ 
-			"or (a.class_option=2 and a.specialization_batch=?6) or (a.class_option=3 and a.specialization_batch=?7) "+ 
+			"or (a.class_option=2 and a.specialization_batch=?6) or (a.class_option=3 and a.specialization_batch like '%' || ?7 || '%' ) "+ 
 			"or (a.class_option=4 and a.specialization_batch=?8)) and a.registered_seats<a.total_seats and "+ 
 			"a.lock_status=0 and a.course_catalog_course_id=b.course_id and b.code in (?3) and b.course_system in (?9)) "+
 			") a order by a.tab_type, a.course_code", nativeQuery=true)
@@ -672,6 +673,17 @@ public interface CourseRegistrationRepository extends JpaRepository<CourseRegist
 			"and stdntslgndtls_register_number =?2 and course_category =?3 ",nativeQuery=true)
 	List<Object[]> doGetRegisteredCourseByCourseCateg(String semesterSubId,String regNo,String coursecatg);
 
-
+	//suga chennai code only one OC code allowed 
+		@Query(value="select count(distinct a.COURSE_ID) as COURSE_COUNT from ("+ 
+				"(select a.COURSE_CATALOG_COURSE_ID as COURSE_ID from ACADEMICS.COURSE_REGISTRATION a, "+ 
+				"ACADEMICS.COURSE_ALLOCATION b where a.SEMSTR_DETAILS_SEMESTER_SUB_ID=?1 and "+ 
+				"a.STDNTSLGNDTLS_REGISTER_NUMBER=?2 and a.crstypcmpntmaster_course_type in (?3) and "+ 
+				"a.COURSE_ALLOCATION_CLASS_ID=b.CLASS_ID and "+
+				"a.SEMSTR_DETAILS_SEMESTER_SUB_ID=b.SEMSTR_DETAILS_SEMESTER_SUB_ID "+ 
+				"and a.COURSE_CATALOG_COURSE_ID=b.COURSE_CATALOG_COURSE_ID and "+
+				"a.CRSTYPCMPNTMASTER_COURSE_TYPE=b.CRSTYPCMPNTMASTER_COURSE_TYPE and "+
+				"b.CLSSGRP_MASTER_CLASS_GROUP_ID in (?4))) a", nativeQuery=true)
+		Integer findCourseCountByRegisterNumberCourseOptionAndClassGroupNC(String semesterSubId, String registerNumber, 
+				List<String> courseOption, List<String> classGroup);
 
 }

@@ -102,7 +102,9 @@ public class CustomAuthenticationProvider extends DaoAuthenticationProvider
 			}
 					
 			
-			List<String> allowedEduStatus = Arrays.asList("AT","RT","TO","AM","BS","HFD","FD","SP");
+			//List<String> allowedEduStatus = Arrays.asList("AT","RT","TO","AM","BS","HFD","FD","SP");
+			List<String> allowedEduStatus = Arrays.asList("AT","RT","TO","AM","BS","HFD","SP");
+
 					
 
 			if(details!=null)

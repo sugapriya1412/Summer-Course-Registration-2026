@@ -432,7 +432,7 @@
 				Model model, HttpSession session, HttpServletRequest request)
 		{
 
-			String registerNumber = (String) session.getAttribute("RegisterNumber");
+ 			String registerNumber = (String) session.getAttribute("RegisterNumber");
 			String IpAddress = (String) session.getAttribute("IpAddress");
 			String urlPage = "";
 
@@ -873,7 +873,7 @@
 							model.addAttribute("courseCostCentre", courseCostCentre);
 							model.addAttribute("ProgramCode", session.getAttribute("ProgramGroupCode"));
 							model.addAttribute("courseOption", courseOption);
-                      System.out.println("courseOption==>"+courseOption);
+                    //  System.out.println("courseOption==>"+courseOption);
 							session.setAttribute("courseOption", courseOption);
 
 
@@ -951,7 +951,7 @@
 						model.addAttribute("crSubCourseOption", crSubCourseOption);
 						model.addAttribute("crSubCourseType", crSubCourseType);
 						model.addAttribute("crSubCourseDate", crSubCourseDate);
-
+					//	System.out.println("CourseOption"+courseOption);
 						session.setAttribute("courseOption", courseOption);
 
 
@@ -1090,15 +1090,15 @@
 						csPjtFlag = 1;
 					}
 
-					String courseOptionVal = (String) session.getAttribute("courseOption");
+//					String courseOptionVal = (String) session.getAttribute("courseOption");
 
 
-					if(!courseOptionVal.equals(courseOption))
-					{
-						model.addAttribute("flag", 1);
-						urlPage = "redirectpage";
-						return urlPage;
-					}
+//					if(!courseOptionVal.equals(courseOption))
+//					{
+//						model.addAttribute("flag", 1);
+//						urlPage = "redirectpage";
+//						return urlPage;
+//					}
 
 
 
@@ -1171,7 +1171,7 @@
 							String[] creditLimitArr = courseRegCommonFn.getMinimumAndMaximumCreditLimit(semesterSubId, 
 									registerNumber, ProgramGroupCode, costCentreCode, 
 									studyStartYear, StudentGraduateYear, checkGraduateYear, 
-									semesterId, ProgramSpecCode, studentCgpaData).split("\\|");
+									semesterId, ProgramSpecCode, studentCgpaData, session).split("\\|");
 							minCredit = Float.parseFloat(creditLimitArr[0]);
 							maxCredit = Float.parseFloat(creditLimitArr[1]);
 							session.setAttribute("minCredit", minCredit);
@@ -1255,15 +1255,15 @@
 						return urlPage;
 					}
 
-					String courseOptionVal = (String) session.getAttribute("courseOption");
-
-
-					if(!courseOptionVal.equals(courseOption))
-					{
-						model.addAttribute("flag", 1);
-						urlPage = "redirectpage";
-						return urlPage;
-					}
+//					String courseOptionVal = (String) session.getAttribute("courseOption");
+//
+//
+//					if(!courseOptionVal.equals(courseOption))
+//					{
+//						model.addAttribute("flag", 1);
+//						urlPage = "redirectpage";
+//						return urlPage;
+//					}
 
 
 
@@ -1697,6 +1697,7 @@
 								curriculumCategory="MN";
 								courseOption="MIN";
 								regOptDesc="MINOR";
+								
 							}
 							
 							if(registrationOption.equals("ACEMIN"))
@@ -1704,6 +1705,7 @@
 								curriculumCategory="MN";
 								courseOption="MIN";
 								regOptDesc="MINOR";
+								regStatus=1;
 							}
 							if(registrationOption.equals("CBCSHON"))
 							{
@@ -1717,7 +1719,8 @@
 							{
 								curriculumCategory=courseCat;
 							}
-							
+							//System.out.println("regStatus==>"+regStatus);
+							//System.out.println("courseOption==>"+courseOption);
 
 							pRegStatus = courseRegistrationReadWriteService.courseRegistrationAdd2(semesterSubId, pClassIdArr, 
 									registerNumber, courseId, pCompTypeArr, courseOption, regStatus, regCompType, 

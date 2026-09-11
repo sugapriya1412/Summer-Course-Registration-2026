@@ -35,7 +35,7 @@ JpaRepository<SemesterClassgroupApplicableSplztnCumActivity,SemesterClassgroupAp
 			+ "INNER JOIN academics.semester_classgroup_applicable_splztn_cum_activity scasca ON sld.prgsplprgrm_specialization_id = scasca.programme_specialization_id and "
 			+ "date_part('year', sld.study_start_date) = scasca.admission_year "
 			+ "INNER JOIN academics.activity_control_master acm ON scasca.registration_activity_control_master_id = acm.activity_control_master_id "
-			+ " AND acm.activity_master_activity_id = 1 and acm.lock_status=0 "
+			+ " AND acm.activity_master_activity_id = 1 and acm.lock_status=0 and acm.activity_control_master_id = '14'"
 			+ "INNER JOIN admissions.student_base sb ON sb.application_number = sld.application_no  "
 			+ "INNER JOIN vtopmaster.cost_centre cc ON sld.cost_centre = cc.centre_id  "
 			+ "INNER JOIN vtopmaster.education_status es ON es.edu_status = sld.edu_status "
@@ -44,7 +44,65 @@ JpaRepository<SemesterClassgroupApplicableSplztnCumActivity,SemesterClassgroupAp
 			+ "INNER JOIN vtopmaster.user_details ud on sld.reg_no =ud.userid) x  "
 			+ "where reg_no=?1  "
 			+ "order by start_timestamp asc ", nativeQuery=true)
-	List<Object[]> findScheduleForCourseRegDetailByRegisterNumber(String registerNumber);	
+	List<Object[]> findScheduleForCourseRegDetailByRegisterNumber(String registerNumber);
+	
+	
+	
+	// chennai code for 1 hour based
+
+/*@Query(value = "SELECT x.programme_code AS progGroupCode,x.specialization AS progSpecializationDescription, x.costcentre, "
+			+ "    x.reg_no AS registerNumber, "
+			+ "    x.admission_year AS admissionYear,x.programme_specialization_id AS progSpecializationId, "
+			+ "   x.study_system AS studySystem, x.edu_expn AS educationStatusDescription,x.lock_status AS lockStatus, "
+			+ "    x.degree_prog_specialization_id, x.semstr_details_semester_sub_id,x.semester_desc,  x.clssgrp_master_class_group_id, "
+			+ "    x.class_group_desc,x.programme_duration,x.programme_group_id AS progGroupId, "
+			+ "    x.centreId,x.start_timestamp, " + "    x.end_timestamp,x.student_Name AS studentName,x.gender, "
+			+ "    x.application_Number AS applicationNumber,\r\n" + "    x.progSpecializationCode,\r\n"
+			+ "    x.progGroupDescription,\r\n" + "    x.programme_mode AS progGroupMode,\r\n"
+			+ "    x.programme_level AS progGroupLevel,\r\n" + "    x.centreDescription,\r\n"
+			+ "    x.educationStatus,\r\n" + "    x.email,\r\n" + "    x.mobile,\r\n"
+			+ "    x.semester_master_semester_id AS semesterId,\r\n"
+			+ "    clock_timestamp() between start_timestamp and end_timestamp,\r\n" + "\r\n" + "    x.reg_lock\r\n"
+			+ "FROM\r\n" + "    (\r\n" + "    SELECT\r\n" + "        pg.code AS programme_code,\r\n"
+			+ "        ps.code AS specialization_code,\r\n" + "        ps.description AS specialization,\r\n"
+			+ "        cc.code AS costcentre,\r\n" + "        pg.programme_duration,\r\n"
+			+ "        pg.programme_group_id,\r\n" + "        cc.centre_id,\r\n" + "        sld.reg_no,\r\n"
+			+ "        sld.edu_status,\r\n" + "        es.edu_expn,\r\n" + "        sld.lock_status,\r\n"
+			+ "        DATE_PART('year', sld.study_start_date) AS admission_year,\r\n"
+			+ "        ps.programme_specialization_id,\r\n" + "        sld.study_system,\r\n"
+			+ "        sld.degree_prog_specialization_id,\r\n" + "        scasca.semstr_details_semester_sub_id,\r\n"
+			+ "        sd.description AS semester_desc,\r\n" + "        scasca.clssgrp_master_class_group_id,\r\n"
+			+ "        cgm.description AS class_group_desc,\r\n" + "        sld.cost_centre AS centreId,\r\n"
+			+ "        rs.from_time start_timestamp,\r\n" + "        rs.to_time end_timestamp,\r\n"
+			+ "        sb.student_name,\r\n" + "        sb.gender,\r\n" + "        sb.application_number,\r\n"
+			+ "        ps.code AS progSpecializationCode,\r\n" + "        pg.description AS progGroupDescription,\r\n"
+			+ "        pg.programme_mode,\r\n" + "        pg.programme_level,\r\n"
+			+ "        cc.description AS centreDescription,\r\n" + "        sld.edu_status AS educationStatus,\r\n"
+			+ "        ud.email,\r\n" + "        ud.mobile,\r\n" + "        sd.semester_master_semester_id,\r\n"
+			+ "        acm.lock_status AS reg_lock\r\n" + "    FROM\r\n" + "        vtopmaster.programme_group pg\r\n"
+			+ "    INNER JOIN vtopmaster.programme_specialization ps ON\r\n"
+			+ "        pg.programme_group_id = ps.prgrm_group_programme_group_id\r\n"
+			+ "    INNER JOIN admissions.students_login_details sld ON\r\n"
+			+ "        sld.prgsplprgrm_specialization_id = ps.programme_specialization_id\r\n"
+			+ "    INNER JOIN academics.semester_classgroup_applicable_splztn_cum_activity scasca ON\r\n"
+			+ "        sld.prgsplprgrm_specialization_id = scasca.programme_specialization_id\r\n"
+			+ "        AND DATE_PART('year', sld.study_start_date) = scasca.admission_year\r\n"
+			+ "    INNER JOIN academics.activity_control_master acm ON\r\n"
+			+ "        scasca.registration_activity_control_master_id = acm.activity_control_master_id\r\n"
+			+ "        AND acm.activity_master_activity_id = 1\r\n" + "        AND acm.lock_status = 0\r\n"
+			+ "    INNER JOIN admissions.student_base sb ON\r\n"
+			+ "        sb.application_number = sld.application_no\r\n"
+			+ "    INNER JOIN vtopmaster.cost_centre cc ON\r\n" + "        sld.cost_centre = cc.centre_id\r\n"
+			+ "    INNER JOIN vtopmaster.education_status es ON\r\n" + "        es.edu_status = sld.edu_status\r\n"
+			+ "    INNER JOIN academics.semester_details sd ON\r\n"
+			+ "        scasca.semstr_details_semester_sub_id = sd.semester_sub_id\r\n"
+			+ "    INNER JOIN academics.class_group_master cgm ON\r\n"
+			+ "        scasca.clssgrp_master_class_group_id = cgm.class_group_id\r\n"
+			+ "    INNER JOIN vtopmaster.user_details ud ON\r\n" + "        sld.reg_no = ud.userid\r\n"
+			+ "    INNER JOIN academics.registration_schedule_new  rs ON\r\n" + "        rs.regno = ud.userid\r\n"
+			+ "        AND rs.status = '0'\r\n" + "    ) x\r\n" + "WHERE\r\n" + "    reg_no = ?1 \r\n" + "ORDER BY\r\n"
+			+ "    start_timestamp ASC", nativeQuery = true)
+	List<Object[]> findScheduleForCourseRegDetailByRegisterNumber(String registerNumber);*/
 
 
 		@Query(value="SELECT x.programme_code progGroupCode, x.specialization progSpecializationDescription,x.costcentre, x.reg_no registerNumber, x.admission_year admissionYear,  "
@@ -140,5 +198,7 @@ JpaRepository<SemesterClassgroupApplicableSplztnCumActivity,SemesterClassgroupAp
 			+ "semstr_details_semester_sub_id  =?1 and clssgrp_master_class_group_id=?2 and stdntslgndtls_register_number =?3", nativeQuery = true)
 	Integer findWishListRegistrationStatusBySemesterSubIdAndClassGroupIdAndRegisterNumber(String semesterSubId, String classGroupId, String registerNumber);
 
-	
+	//chennai code for registration permit
+	@Query(value = "SELECT count(*) FROM academics.registration_permit a where semstr_details_semester_sub_id = ?1 and a.stdntslgndtls_register_number = ?2 and cast(permit_date as date) = CURRENT_DATE", nativeQuery = true)
+	Integer getRegistrationPermitDetails(String semesterId, String registerNo);
 }

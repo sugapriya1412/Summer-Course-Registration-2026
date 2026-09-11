@@ -266,6 +266,7 @@ public class ProgrammeSpecializationCurriculumCreditService
 			//Over All Calculation
 			for (CurriculumCreditCalculationDto e : ccCalculationMapList.values())
 			{
+			//	System.out.println("Testing UE"+e.getCategoryCode()+" - "+e.getResultPublishedCredit());
 				e.setObtainedCredit(e.getResultPublishedCredit() + e.getResultUnpublishedCredit() 
 						+ e.getRegisteredCredit() + e.getWaitingListCredit());
 				e.setRemainingCredit((float)e.getCategoryCredit() - (e.getResultPublishedCredit() + e.getResultUnpublishedCredit() 

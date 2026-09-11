@@ -18,9 +18,9 @@ public class MailUtility
 		try {
 
 
-			String FromEmailID = "";
+			String FromEmailID = "noreply.cc1@vit.ac.in";
 
-			String url = "";
+			String url = "https://emailapi.netcorecloud.net/v5/mail/send";
 
 			String payload = "{\"from\":{\"email\":\""+FromEmailID+"\"},\"subject\":\""+subject+"\","
 					+ "\"content\":[{\"type\":\"html\",\"value\":"

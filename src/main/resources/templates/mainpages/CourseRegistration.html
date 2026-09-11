@@ -358,19 +358,19 @@
 										 				id="CourseOption" th:value="${cOL[0]}" onclick="enablecourseOption();"
 										 				th:text="${cOL[1]}"/>
 										 			<span style="font-weight:bold; color: red;" th:if="${cOL[3] == 2}">(Need Payment)</span>
+<!-- disable chennai code -->
 
+<!-- 													<div th:if="${session.registrationOption=='CON'}"> -->
+<!-- 														<br/> -->
+<!-- 													<input class="radio-btn"   type="radio" name="courseCat" -->
+<!-- 														   id="courseCat" th:value="${'CON'}" onclick="enablecourseOption();" -->
+<!-- 														   th:text="${'Concentration'}" checked/>&nbsp;&nbsp;&nbsp; -->
 
-													<div th:if="${session.registrationOption=='CON'}">
-														<br/>
-													<input class="radio-btn"   type="radio" name="courseCat"
-														   id="courseCat" th:value="${'CON'}" onclick="enablecourseOption();"
-														   th:text="${'Programme Core'}" checked/>&nbsp;&nbsp;&nbsp;
-
-													<input class="radio-btn"   type="radio" name="courseCat"
-														   id="courseCat" th:value="${'OEC'}" onclick="enablecourseOption();"
-														   th:text="${'Open Elective'}"/>
-														<br/>
-													</div>
+<!-- 													<input class="radio-btn"   type="radio" name="courseCat" -->
+<!-- 														   id="courseCat" th:value="${'OEC'}" onclick="enablecourseOption();" -->
+<!-- 														   th:text="${'Open Elective'}"/> -->
+<!-- 														<br/> -->
+<!-- 													</div> -->
 
 									 			</div><br/>
 									 		</div>

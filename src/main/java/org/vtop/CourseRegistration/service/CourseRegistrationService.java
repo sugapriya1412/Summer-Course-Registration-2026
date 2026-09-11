@@ -529,7 +529,19 @@ public class CourseRegistrationService
 		return courseRegistrationRepository.doGetRegisteredCourseByCourseCateg(semesterSubId, regNo, coursecatg);
 	}
 	
-	
+	//suga chennai code only one OC code allowed 
+		public Integer getncCourseCountByRegisterNumberCourseOptionAndClassGroup(String semesterSubId,
+				String registerNumber, String[] classGroupId) {
+			Integer tempCount = 0;
+
+			tempCount = courseRegistrationRepository.findCourseCountByRegisterNumberCourseOptionAndClassGroupNC(
+					semesterSubId, registerNumber, Arrays.asList("OC"), Arrays.asList(classGroupId));
+			if (tempCount == null) {
+				tempCount = 0;
+			}
+
+			return tempCount;
+		}
 	
 	
 }

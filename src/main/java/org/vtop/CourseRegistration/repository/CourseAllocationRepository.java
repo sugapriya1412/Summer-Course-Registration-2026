@@ -20,7 +20,7 @@ public interface CourseAllocationRepository extends JpaRepository<CourseAllocati
 	
 	@Query("select a from CourseAllocationModel a where a.semesterSubId=?1 and a.clsGrpMasterGroupId in (?2) "+
 			"and a.classType in (?3) and a.courseId=?4 and a.courseType in (?5) and (a.classOption=1 or "+
-			"(a.classOption=2 and a.specializationBatch=?6) or (a.classOption=3 and a.specializationBatch=?7) or "+
+			"(a.classOption=2 and a.specializationBatch=?6) or (a.classOption=3 and a.specializationBatch like '%' || ?7 || '%') or "+
 			"(a.classOption=4 and a.specializationBatch=?8)) and a.lockStatus=0 order by a.timeTableModel.slotName, "+
 			"a.assoClassId, a.classId")
 	List<CourseAllocationModel> findByCourseIdCourseTypeAndClassOption(String semesterSubId, String[] classGroupId, 
@@ -36,7 +36,7 @@ public interface CourseAllocationRepository extends JpaRepository<CourseAllocati
 	
 	@Query("select a from CourseAllocationModel a where a.semesterSubId=?1 and a.clsGrpMasterGroupId in (?2) "+
 			"and a.classType in (?3) and a.courseId=?4 and a.courseType=?5 and (a.classOption=1 or "+
-			"(a.classOption=2 and a.specializationBatch=?6) or (a.classOption=3 and a.specializationBatch=?7) or "+ 
+			"(a.classOption=2 and a.specializationBatch=?6) or (a.classOption=3 and a.specializationBatch like '%' || ?7 || '%') or "+ 
 			"(a.classOption=4 and a.specializationBatch=?8)) and a.lockStatus=0 order by a.timeTableModel.slotName, "+
 			"a.assoClassId, a.classId")
 	List<CourseAllocationModel> findByCourseIdCourseTypeAndClassOption2(String semesterSubId, String[] classGroupId, 
@@ -52,7 +52,7 @@ public interface CourseAllocationRepository extends JpaRepository<CourseAllocati
 
 	@Query("select a from CourseAllocationModel a where a.semesterSubId=?1 and a.clsGrpMasterGroupId in (?2) "+
 			"and a.classType in (?3) and a.courseId=?4 and a.courseType=?5 and a.erpId=?6 and (a.classOption=1 or "+ 
-			"(a.classOption=2 and a.specializationBatch=?7) or (a.classOption=3 and a.specializationBatch=?8) or "+ 
+			"(a.classOption=2 and a.specializationBatch=?7) or (a.classOption=3 and a.specializationBatch like '%' || ?8 || '%') or "+ 
 			"(a.classOption=4 and a.specializationBatch=?9)) and a.lockStatus=0 order by a.timeTableModel.slotName, "+
 			"a.assoClassId, a.classId")
 	List<CourseAllocationModel> findByCourseIdCourseTypeEmpIdAndClassOption(String semesterSubId, String[] classGroupId, 
@@ -69,7 +69,7 @@ public interface CourseAllocationRepository extends JpaRepository<CourseAllocati
 	@Query("select a from CourseAllocationModel a where a.semesterSubId=?1 and a.clsGrpMasterGroupId in (?2) "+
 			"and a.classType in (?3) and a.courseId=?4 and a.courseType=?5 and a.erpId=?6 and a.slotId=?7 and "+
 			"a.assoClassId=?8 and (a.classOption=1 or (a.classOption=2 and a.specializationBatch=?9) or "+
-			"(a.classOption=3 and a.specializationBatch=?10) or (a.classOption=4 and a.specializationBatch=?11)) "+
+			"(a.classOption=3 and a.specializationBatch like '%' || ?10 || '%') or (a.classOption=4 and a.specializationBatch=?11)) "+
 			"and a.lockStatus=0 order by a.classId")
 	CourseAllocationModel findByCourseIdCourseTypeEmpIdSlotIdAssoClassIdAndClassOption(String semesterSubId, 
 								String[] classGroupId, String[] classType, String courseId, String courseType, 
@@ -86,7 +86,7 @@ public interface CourseAllocationRepository extends JpaRepository<CourseAllocati
 	@Query("select a from CourseAllocationModel a where a.semesterSubId=?1 and a.clsGrpMasterGroupId in (?2) "+
 			"and a.classType in (?3) and a.courseCatalogModel.code=?4 and a.courseCatalogModel.courseSystem in (?5) "+
 			"and (a.classOption=1 or (a.classOption=2 and a.specializationBatch=?6) or (a.classOption=3 and "+
-			"a.specializationBatch=?7) or (a.classOption=4 and a.specializationBatch=?8)) and a.registeredSeats<a.totalSeats "+
+			"a.specializationBatch like '%' || ?7 || '%') or (a.classOption=4 and a.specializationBatch=?8)) and a.registeredSeats<a.totalSeats "+
 			"and a.lockStatus=0 order by a.timeTableModel.slotName, a.assoClassId, a.classId")
 	List<CourseAllocationModel> findAvailableClassByCourseCodeAndClassOption(String semesterSubId, String[] classGroupId, 
 									String[] classType, String courseCode, String[] courseSystem, String progGroupCode, 
@@ -99,9 +99,10 @@ public interface CourseAllocationRepository extends JpaRepository<CourseAllocati
 	@Query("select (10-a.waitingSeats) as avbseats from CourseAllocationModel a where a.classId=?1")
 	Integer findAvailableWaitingSeats(String classId);
 	
+	//chennai code bai,bps
 	@Query(value="select distinct course_catalog_course_id  from academics.course_allocation where semstr_details_semester_sub_id=?1 "
 			+ "and clssgrp_master_class_group_id in (?2)  and  class_type in (?3) and (class_option=1 or (class_option=2 and "
-			+ "specialization_batch=?4) or (class_option=3 and specialization_batch=?5) or (class_option=4 and specialization_batch=?6) "
+			+ "specialization_batch=?4) or (class_option=3 and specialization_batch like '%' || ?5 || '%')  or (class_option=4 and specialization_batch=?6) "
 			+ "and lock_status=0)",nativeQuery=true)	
 	List<String> getCourseIdBySemesterSubIdClassGroupClassTypeAndClassOption(String semesterSubId, List<String> classGroupId, 
 			List<String> classType, String progGroupCode, String progSpecCode, String costCentreCode);
@@ -134,7 +135,7 @@ public interface CourseAllocationRepository extends JpaRepository<CourseAllocati
 			+ "and clssgrp_master_class_group_id in (?2) and class_type in (?3)"
 			+ "and cc.code in (?7) and ca.lock_status =0 "
 			+ "and (ca.class_option =1 or (ca.class_option=2 and ca.specialization_batch =?4) or (ca.class_option=3 and "
-			+ "ca.specialization_batch=?5) or (ca.class_option=4 and ca.specialization_batch=?6))"
+			+ "ca.specialization_batch like '%' || ?5 || '%') or (ca.class_option=4 and ca.specialization_batch=?6))"
 			+ "and ca.course_catalog_course_id = cc.course_id ", nativeQuery=true)
 	List<String> findCourseIdBySemesterSubIdClassGroupClassTypeClassOptionAndCourseCode(String semesterSubId,
 			List<String> classGroupLIst, List<String> classTypeList, String programGroupCode, String programSpecCode,
@@ -157,7 +158,7 @@ public interface CourseAllocationRepository extends JpaRepository<CourseAllocati
 	@Query(" select distinct a.courseCatalogModel from CourseAllocationModel a where a.semesterSubId=?1 and a.clsGrpMasterGroupId in (?2) "
 			+ " and (a.courseCatalogModel.groupId in (?3) or  a.courseCatalogModel.groupCode like ?5) and a.classType in (?4) "
 			+ "  and a.courseCatalogModel.code in (?6) and a.lockStatus=0  "
-			+ "and (a.classOption=1 or (a.classOption=2 and a.specializationBatch=?7) or (a.classOption=3 and a.specializationBatch=?8)"
+			+ "and (a.classOption=1 or (a.classOption=2 and a.specializationBatch=?7) or (a.classOption=3 and a.specializationBatch like '%'|| ?8 ||'%')"
 			+ " or (a.classOption=4 and a.specializationBatch=?9))    ")
 	List<CourseCatalogModel> findCourseForNonResearchProg(String semesterSubId,List<String> classGrpId,List<Integer> groupId,List<String> classType,
 			String groupCode,List<String> courseCode,String specBatch1,String specBatch2,String specBatch3);
@@ -171,7 +172,7 @@ public interface CourseAllocationRepository extends JpaRepository<CourseAllocati
 			+ " and a.courseCatalogModel.courseId in (select  distinct b.courseId from CourseAllocationModel b where b.semesterSubId=?1 "
 			+ " and b.clsGrpMasterGroupId in (?2) "
 			+ " and b.classType in (?3) "
-			+ " and (b.classOption=1 or (b.classOption=2 and b.specializationBatch=?4) or (b.classOption=3 and b.specializationBatch=?5) "
+			+ " and (b.classOption=1 or (b.classOption=2 and b.specializationBatch=?4) or (b.classOption=3 and b.specializationBatch like '%' || ?5 || '%') "
 			+ "	or (b.classOption=4 and b.specializationBatch=?6)) and b.lockStatus=0 ) and a.courseCatalogModel.code not in (?12) ")
 	List<CourseCatalogModel>  findCourseUECourseList(String semesterSubId,List<String> classGrpId,List<String> classType,String specBatch1,
 			String specBatch2,String specBatch3, List<String> courseSystem,List<Integer> groupId,String groupCode, List<String> gCourseType,
@@ -186,6 +187,7 @@ public interface CourseAllocationRepository extends JpaRepository<CourseAllocati
 	List<CourseCatalogModel>  findCourseRGRWithRPProg(List<Integer> eligibleGroupId, String alternateProgramGroup, List<String> courseCode, 
 			List<String> notCourseCode,  List<String> notGenericCourseType, 
 			List<String> courseId);
+	
 	
 	
 	@Query(" select distinct a.courseCatalogModel from CourseAllocationModel a where  "

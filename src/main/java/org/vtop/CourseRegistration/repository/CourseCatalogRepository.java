@@ -54,7 +54,7 @@ public interface CourseCatalogRepository extends JpaRepository<CourseCatalogMode
 			"like '%/'||?4)) and a.genericCourseType not in (?12) and (a.code not like 'SET%') and "+
 			"a.status=0 and a.courseId in (select distinct b.courseId from CourseAllocationModel b where "+
 			"b.semesterSubId=?5 and b.clsGrpMasterGroupId in (?6) and b.classType in (?7) and (b.classOption=1 or "+
-			"(b.classOption=2 and b.specializationBatch=?9) or (b.classOption=3 and b.specializationBatch=?10) or "+
+			"(b.classOption=2 and b.specializationBatch=?9) or (b.classOption=3 and b.specializationBatch like '%' || ?10 || '%') or "+
 			"(b.classOption=4 and b.specializationBatch=?11)) and b.lockStatus=0) and "+
 			"a.code not in (select (case when (c.courseCode is null) then 'NONE' else c.courseCode end) from "+
 			"StudentHistoryModel c where c.studentHistoryPKId.registerNumber in (?8)) and a.code not in "+
@@ -94,7 +94,7 @@ public interface CourseCatalogRepository extends JpaRepository<CourseCatalogMode
 			"like 'SET%') and a.status=0 and a.courseId in (select distinct b.courseId from CourseAllocationModel b "+
 			"where b.semesterSubId=?5 and b.clsGrpMasterGroupId in (?6) and b.classType in (?7) and "+ 
 			"(b.classOption=1 or (b.classOption=2 and b.specializationBatch=?10) or (b.classOption=3 and "+
-			"b.specializationBatch=?11) or (b.classOption=4 and b.specializationBatch=?12)) and "+
+			"b.specializationBatch like '%' || ?11 || '%') or (b.classOption=4 and b.specializationBatch=?12)) and "+
 			"b.lockStatus=0) and a.code not in (select (case when (c.courseCode is null) then 'NONE' "+
 			"else c.courseCode end) from StudentHistoryModel c where c.studentHistoryPKId.registerNumber in (?8)) and "+
 			"a.code not in (select d1.equivalentCourseCode from CourseEquivalancesModel d1 where d1.courseCode in "+
@@ -134,7 +134,7 @@ public interface CourseCatalogRepository extends JpaRepository<CourseCatalogMode
 			"a.status=0 and a.code in (?9) and a.courseId in (select distinct b.courseId from CourseAllocationModel b "+
 			"where b.semesterSubId=?5 and b.clsGrpMasterGroupId in (?6) and b.classType in (?7) and "+ 
 			"(b.classOption=1 or (b.classOption=2 and b.specializationBatch=?10) or (b.classOption=3 and "+
-			"b.specializationBatch=?11) or (b.classOption=4 and b.specializationBatch=?12)) and "+
+			"b.specializationBatch like '%' || ?11 || '%') or (b.classOption=4 and b.specializationBatch=?12)) and "+
 			"b.lockStatus=0) and a.code not in (select (case when (c.courseCode is null) then 'NONE' else c.courseCode end) "+
 			"from StudentHistoryModel c where c.studentHistoryPKId.registerNumber in (?8)) and a.code not in "+
 			"(select d1.equivalentCourseCode from CourseEquivalancesModel d1 where d1.courseCode in "+
@@ -176,7 +176,7 @@ public interface CourseCatalogRepository extends JpaRepository<CourseCatalogMode
 			"like '%/'||?4)) and a.genericCourseType not in ('ECA','OC') and (a.code not like 'SET%') and "+
 			"a.status=0 and a.courseId in (select distinct b.courseId from CourseAllocationModel b where "+
 			"b.semesterSubId=?5 and b.clsGrpMasterGroupId in (?6) and b.classType in (?7) and (b.classOption=1 or "+
-			"(b.classOption=2 and b.specializationBatch=?9) or (b.classOption=3 and b.specializationBatch=?10) or "+
+			"(b.classOption=2 and b.specializationBatch=?9) or (b.classOption=3 and b.specializationBatch like '%' || ?10 || '%') or "+
 			"(b.classOption=4 and b.specializationBatch=?11)) and b.lockStatus=0) and "+
 			"(a.code in (select (case when (c.courseCode is null) then 'NONE' else c.courseCode end) from "+
 			"StudentHistoryModel c where c.studentHistoryPKId.registerNumber in (?8) and "+
@@ -223,7 +223,7 @@ public interface CourseCatalogRepository extends JpaRepository<CourseCatalogMode
 			"like 'SET%') and a.status=0 and a.courseId in (select distinct b.courseId from CourseAllocationModel b "+
 			"where b.semesterSubId=?5 and b.clsGrpMasterGroupId in (?6) and b.classType in (?7) and "+ 
 			"(b.classOption=1 or (b.classOption=2 and b.specializationBatch=?10) or (b.classOption=3 and "+
-			"b.specializationBatch=?11) or (b.classOption=4 and b.specializationBatch=?12)) and "+
+			"b.specializationBatch like '%' || ?11 || '%') or (b.classOption=4 and b.specializationBatch=?12)) and "+
 			"b.lockStatus=0) and (a.code in (select (case when (c.courseCode is null) then 'NONE' else c.courseCode end) "+
 			"from StudentHistoryModel c where c.studentHistoryPKId.registerNumber in (?8) and "+
 			"c.courseTypeComponentModel.component in (1,3) and c.grade not in ('S','U','P','PASS','Pass','A','B','C','D','E')) "+
@@ -258,7 +258,7 @@ public interface CourseCatalogRepository extends JpaRepository<CourseCatalogMode
 			"like '%/'||?3)) and a.genericCourseType not in ('SS','ECA','PJT','OC') and a.status=0 and a.courseId in "+
 			"(select distinct b.courseId from CourseAllocationModel b where b.semesterSubId=?4 and b.clsGrpMasterGroupId "+
 			"in (?5) and b.classType in (?6) and (b.classOption=1 or (b.classOption=2 and b.specializationBatch=?7) or "+
-			"(b.classOption=3 and b.specializationBatch=?8) or (b.classOption=4 and b.specializationBatch=?9)) "+ 
+			"(b.classOption=3 and b.specializationBatch like '%' || ?8 || '%') or (b.classOption=4 and b.specializationBatch=?9)) "+ 
 			"and b.lockStatus=0) and (a.code in (select c.courseCode from CourseEquivalancesModel c) or a.code in "+
 			"(select d.equivalentCourseCode from CourseEquivalancesModel d)) order by a.ownerCode, a.code, a.courseVersion")
 	List<CourseCatalogModel> findCALToFFCSCEByClassOption(String campusCode, List<Integer> egbGroupId, String groupCode, 
@@ -282,7 +282,7 @@ public interface CourseCatalogRepository extends JpaRepository<CourseCatalogMode
 			"like '%/'||?3)) and (a.code like ?7) and a.genericCourseType not in ('SS','ECA','PJT','OC') and a.status=0 "+
 			"and a.courseId in (select distinct b.courseId from CourseAllocationModel b where b.semesterSubId=?4 and "+
 			"b.clsGrpMasterGroupId in (?5) and b.classType in (?6) and (b.classOption=1 or (b.classOption=2 and "+
-			"b.specializationBatch=?8) or (b.classOption=3 and b.specializationBatch=?9) or (b.classOption=4 and "+ 
+			"b.specializationBatch=?8) or (b.classOption=3 and b.specializationBatch like '%' || ?9 || '%') or (b.classOption=4 and "+ 
 			"b.specializationBatch=?10)) and b.lockStatus=0) and (a.code in "+
 			"(select c.courseCode from CourseEquivalancesModel c) or a.code in (select d.equivalentCourseCode from "+
 			"CourseEquivalancesModel d)) order by a.ownerCode, a.code, a.courseVersion")
@@ -309,7 +309,7 @@ public interface CourseCatalogRepository extends JpaRepository<CourseCatalogMode
 			"(select distinct b.courseId from CourseAllocationModel b where b.semesterSubId=?5 and "+
 			"b.clsGrpMasterGroupId in (?6) and b.classType in (?7) and b.courseCatalogModel.code in (?8) and "+
 			"(b.classOption=1 or (b.classOption=2 and b.specializationBatch=?9) or (b.classOption=3 and "+
-			"b.specializationBatch=?10) or (b.classOption=4 and b.specializationBatch=?11)) and b.lockStatus=0) "+
+			"b.specializationBatch like '%' || ?10 || '%') or (b.classOption=4 and b.specializationBatch=?11)) and b.lockStatus=0) "+
 			"order by a.ownerCode, a.code, a.courseVersion")
 	Page<CourseCatalogModel> findCompulsoryCourseByClassOptionAsPage(String campusCode, String[] courseSystem, 
 			List<Integer> egbGroupId, String groupCode, String semesterSubId, String[] classGroupId, 
@@ -340,7 +340,7 @@ public interface CourseCatalogRepository extends JpaRepository<CourseCatalogMode
 			"and a.genericCourseType not in (?15) and (a.code not like 'SET%') and a.status=0 "+
 			"and a.courseId in (select distinct b.courseId from CourseAllocationModel b where b.semesterSubId=?5 and "+
 			"b.clsGrpMasterGroupId in (?6) and b.classType in (?7) and (b.classOption=1 or (b.classOption=2 and "+
-			"b.specializationBatch=?12) or (b.classOption=3 and b.specializationBatch=?13) or (b.classOption=4 and "+ 
+			"b.specializationBatch=?12) or (b.classOption=3 and b.specializationBatch like '%' || ?13 || '%') or (b.classOption=4 and "+ 
 			"b.specializationBatch=?14)) and b.lockStatus=0) and (a.code in "+
 			"(select d.code from ProgrammeSpecializationCurriculumDetailModel c, CourseCatalogModel d where "+
 			"c.psccdPkId.specializationId=?8 and c.psccdPkId.admissionYear=?9 and c.psccdPkId.curriculumVersion=?11 and "+
@@ -382,7 +382,7 @@ public interface CourseCatalogRepository extends JpaRepository<CourseCatalogMode
 			"(a.code not like 'SET%') and a.status=0 and a.courseId in "+
 			"(select distinct b.courseId from CourseAllocationModel b where b.semesterSubId=?5 and b.clsGrpMasterGroupId "+
 			"in (?6) and b.classType in (?7) and (b.classOption=1 or (b.classOption=2 and b.specializationBatch=?13) or "+
-			"(b.classOption=3 and b.specializationBatch=?14) or (b.classOption=4 and b.specializationBatch=?15)) and "+
+			"(b.classOption=3 and b.specializationBatch like '%' || ?14 || '%') or (b.classOption=4 and b.specializationBatch=?15)) and "+
 			"b.lockStatus=0) and (a.code in "+
 			"(select d.code from ProgrammeSpecializationCurriculumDetailModel c, CourseCatalogModel d where "+
 			"c.psccdPkId.specializationId=?8 and c.psccdPkId.admissionYear=?9 and c.psccdPkId.curriculumVersion=?11 and "+
@@ -422,7 +422,7 @@ public interface CourseCatalogRepository extends JpaRepository<CourseCatalogMode
 			"a.evaluationType not in ('IIP','LSM','TARP') and a.status=0 and a.courseId in "+
 			"(select distinct b.courseId from CourseAllocationModel b where b.semesterSubId=?5 and b.clsGrpMasterGroupId "+
 			"in (?6) and b.classType in (?7) and (b.classOption=1 or (b.classOption=2 and b.specializationBatch=?11) or "+
-			"(b.classOption=3 and b.specializationBatch=?12) or (b.classOption=4 and b.specializationBatch=?13)) "+ 
+			"(b.classOption=3 and b.specializationBatch like '%' || ?12 || '%') or (b.classOption=4 and b.specializationBatch=?13)) "+ 
 			"and b.lockStatus=0) and a.code not in "+
 			"(select d.code from ProgrammeSpecializationCurriculumDetailModel c, CourseCatalogModel d where "+
 			"c.psccdPkId.specializationId=?8 and c.psccdPkId.admissionYear=?9 and c.psccdPkId.curriculumVersion=?10 "+
@@ -463,7 +463,7 @@ public interface CourseCatalogRepository extends JpaRepository<CourseCatalogMode
 			"a.evaluationType not in ('IIP','LSM','TARP') and a.status=0 and a.courseId in "+
 			"(select distinct b.courseId from CourseAllocationModel b where b.semesterSubId=?5 and "+
 			"b.clsGrpMasterGroupId in (?6) and b.classType in (?7) and (b.classOption=1 or "+
-			"(b.classOption=2 and b.specializationBatch=?12) or (b.classOption=3 and b.specializationBatch=?13) "+ 
+			"(b.classOption=2 and b.specializationBatch=?12) or (b.classOption=3 and b.specializationBatch like '%' || ?13 || '%') "+ 
 			"or (b.classOption=4 and b.specializationBatch=?14)) and b.lockStatus=0) and a.code not in "+
 			"(select d.code from ProgrammeSpecializationCurriculumDetailModel c, CourseCatalogModel d "+
 			"where c.psccdPkId.specializationId=?8 and c.psccdPkId.admissionYear=?9 and "+
@@ -498,7 +498,7 @@ public interface CourseCatalogRepository extends JpaRepository<CourseCatalogMode
 			"(select distinct b.courseId from CourseAllocationModel b where b.semesterSubId=?5 "+
 			"and b.clsGrpMasterGroupId in (?6) and b.classType in (?7) and b.courseCatalogModel.code "+
 			"in (?8) and ((b.classOption=1 and b.specializationBatch is null) or (b.classOption=2 and "+
-			"b.specializationBatch=?9) or (b.classOption=3 and b.specializationBatch=?10) or "+
+			"b.specializationBatch=?9) or (b.classOption=3 and b.specializationBatch like '%' || ?10 || '%') or "+
 			"(b.classOption=4 and b.specializationBatch=?11)) and b.lockStatus=0) "+
 			"order by a.ownerCode, a.code, a.courseVersion")
 	List<CourseCatalogModel> findCALSoftSkillCourseByClassOption(String campusCode, String[] courseSystem, 
@@ -529,7 +529,7 @@ public interface CourseCatalogRepository extends JpaRepository<CourseCatalogMode
 			"a.status=0 and a.courseId in (select distinct b.courseId from CourseAllocationModel b "+
 			"where b.semesterSubId=?4 and b.clsGrpMasterGroupId in (?5) and b.classType in (?6) and "+ 
 			"(b.classOption=1 or (b.classOption=2 and b.specializationBatch=?8) or (b.classOption=3 "+
-			"and b.specializationBatch=?9) or (b.classOption=4 and b.specializationBatch=?10)) "+
+			"and b.specializationBatch like '%' || ?9 || '%') or (b.classOption=4 and b.specializationBatch=?10)) "+
 			"and b.lockStatus=0) order by a.ownerCode, a.code, a.courseVersion")
 	List<CourseCatalogModel> findFFCSSoftSkillCourseByClassOption(String campusCode, List<Integer> egbGroupId, 
 			String groupCode, String semesterSubId, String[] classGroupId, String[] classType, 

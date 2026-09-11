@@ -58,7 +58,7 @@ public class AcademicsDataConfig
 	      dataSrcConfig.setJdbcUrl("jdbc:postgresql://172.16.0.172:5432/vtop");
         dataSrcConfig.setDriverClassName("org.postgresql.Driver");
         dataSrcConfig.setMinimumIdle(1);
-        dataSrcConfig.setMaximumPoolSize(1);
+        dataSrcConfig.setMaximumPoolSize(100);
         dataSrcConfig.setConnectionTestQuery("SELECT 1");
         dataSrcConfig.setConnectionTimeout(30000);
         dataSrcConfig.setIdleTimeout(300000);

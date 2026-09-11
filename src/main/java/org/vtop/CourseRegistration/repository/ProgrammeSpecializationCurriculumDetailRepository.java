@@ -230,7 +230,7 @@ List<Object[]> findCurriculumByAdmsnYearCCVersionAndCourseCode(Integer specId, I
 			"and d.clssgrp_master_class_group_id in (?3) " +
 			"and b.course_catalog_course_id  = d.course_catalog_course_id " +
 			"and  d.class_type in ('EFS','BFS') and (d.class_option=1 or (d.class_option=2 and  " +
-			"d.specialization_batch=?4) or (d.class_option=3 and d.specialization_batch=?5)  " +
+			"d.specialization_batch=?4) or (d.class_option=3 and d.specialization_batch like '%' || ?5 || '%')  " +
 			"or (d.class_option=4 and d.specialization_batch=?6)  " +
 			"and d.lock_status=0) " +
 			"inner join academics.course_catalog cc " +
@@ -254,7 +254,7 @@ List<Object[]> findCurriculumByAdmsnYearCCVersionAndCourseCode(Integer specId, I
 			"and d.clssgrp_master_class_group_id in (?3) " +
 			"and b.course_catalog_course_id  = d.course_catalog_course_id " +
 			"and  d.class_type in ('EFS','BFS') and (d.class_option=1 or (d.class_option=2 and  " +
-			"d.specialization_batch=?4) or (d.class_option=3 and d.specialization_batch=?5)  " +
+			"d.specialization_batch=?4) or (d.class_option=3 and d.specialization_batch like '%' || ?5 || '%')  " +
 			"or (d.class_option=4 and d.specialization_batch=?6)  " +
 			"and d.lock_status=0) " +
 			"inner join academics.course_catalog cc " +
@@ -399,6 +399,37 @@ List<Object[]> findCurriculumByAdmsnYearCCVersionAndCourseCode(Integer specId, I
 			"order by a.prgsplzn_prg_specialization_id, a.admission_year, a.curriculum_version, a.course_category,  " +
 			"a.catalog_type, a.course_basket_id, b.code ",nativeQuery = true)
 	List<Object[]>  doGetAllOECoursesACE(int admissionYear,int progGroupId,String courseOption);
+	
+	
+	@Query(value="select a.prgsplzn_prg_specialization_id as progSpecializationId, a.admission_year as admissionYear,  " +
+			"a.curriculum_version as curriculumVersion, a.course_category as courseCategory, a.catalog_type as catalogType,  " +
+			"a.basket_category as basketCategory, a.basket_credit as basketCredit, a.course_id as courseId, b.code as courseCode,  " +
+			"b.title as courseTitle from ( " +
+			"select a.prgsplzn_prg_specialization_id, a.admission_year, a.curriculum_version, a.course_category,  " +
+			"a.catalog_type, a.course_basket_id, a.basket_category, a.basket_credit, a.course_id from ( " +
+			"(select prgsplzn_prg_specialization_id, admission_year, curriculum_version, course_category,  " +
+			"catalog_type, course_basket_id, 'NONE' as basket_category, 0 as basket_credit, course_basket_id  " +
+			"as course_id from academics.prg_splztn_curriculum_details pscd inner join vtopmaster.programme_specialization ps on   " +
+			"pscd.prgsplzn_prg_specialization_id=ps.programme_specialization_id  " +
+			"where pscd.admission_year=?1 and ps.prgrm_group_programme_group_id in (?2) and pscd.course_category=?3 and  pscd.prgsplzn_prg_specialization_id=?4 and pscd.catalog_type='CC' and pscd.lock_status=0 )  " +
+			"union all  " +
+			"(select a.prgsplzn_prg_specialization_id, a.admission_year, a.curriculum_version, a.course_category,  " +
+			"a.catalog_type, a.course_basket_id, b.basket_category, b.credits as basket_credit, c.course_catalog_course_id  " +
+			"as course_id from  " +
+			"(select * from academics.prg_splztn_curriculum_details pscd inner join vtopmaster.programme_specialization ps on   " +
+			"pscd.prgsplzn_prg_specialization_id=ps.programme_specialization_id  " +
+			"where admission_year=?1  and ps.prgrm_group_programme_group_id in (?2) and pscd.course_category=?3 and  pscd.prgsplzn_prg_specialization_id=?4 and " +
+			"pscd.admission_year=?1 and catalog_type='BC' and pscd.lock_status=0 ) a, academics.basket_details b,  " +
+			"academics.basket_course_catalog c where a.course_basket_id=b.basket_id  " +
+			"and a.course_basket_id=c.basket_details_basket_id and b.basket_id=c.basket_details_basket_id)) a  " +
+			"where (a.prgsplzn_prg_specialization_id, a.admission_year, a.curriculum_version) in  " +
+			"(select prgsplzn_prg_specialization_id, admission_year, max(curriculum_version) from  " +
+			"academics.prg_splztn_curriculum_credits where lock_status=0 group by prgsplzn_prg_specialization_id,  " +
+			"admission_year)) a, academics.course_catalog b where   " +
+			"a.course_id=b.course_id  " +
+			"order by a.prgsplzn_prg_specialization_id, a.admission_year, a.curriculum_version, a.course_category,  " +
+			"a.catalog_type, a.course_basket_id, b.code ",nativeQuery = true)
+	List<Object[]>  doGetAllOECoursesACEByProgramSpecId(int admissionYear,int progGroupId,String courseOption,int programmeSplzationId);
 
 
 }

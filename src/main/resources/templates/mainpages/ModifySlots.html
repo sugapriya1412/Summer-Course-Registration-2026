@@ -142,7 +142,9 @@
 				  <td style="border:1px solid #3c8dbc; text-align: center;" 
 				  		th:if="${(RegisteredList[4] != 'EPJ') and 
 							(#lists.contains(blockedCourse, RegisteredList[0]) == false)}">
-				                  			
+				        <!-- chennai code disable modify option etp etlp 
+                  			                  		th:if="${(#lists.contains(session.compulsoryCourseList, RegisteredList[1])== false and RegisteredList[25]!='ETL' and RegisteredList[25]!='ETLP')
+                  			-->          			
                   	<button class="btn-success w3-btn w3-btn-red w3-round-large" type="button"  
                   		style="border:1px solid #3c8dbc;"                   		
                   		th:data-parameter1="${RegisteredList[12] +'/'+ RegisteredList[0] +'/'+ RegisteredList[4]}"
@@ -151,7 +153,7 @@
                   		th:onclick="javascript: editRegisteredSlots(this.getAttribute('data-parameter1'), 
                   			this)"
                   			
-                  		th:if="${(#lists.contains(session.compulsoryCourseList, RegisteredList[1])== false and RegisteredList[25]!='ETL' and RegisteredList[25]!='ETLP')
+                  		th:if="${(#lists.contains(session.compulsoryCourseList, RegisteredList[1])== false)
                   		or (#lists.contains(session.compulsoryCourseList, RegisteredList[1]))}">Modify</button>
                   </td>               			
                   <td style="border:1px solid #3c8dbc; text-align: center; font-weight: bold;" 
